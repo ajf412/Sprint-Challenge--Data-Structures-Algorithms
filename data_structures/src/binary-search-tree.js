@@ -7,7 +7,19 @@ class BinarySearchTree {
 
   depthFirstForEach(cb) {
     /* Your code here */
+    const found = [];
+    let current = this;
+    const stack = [];
+    const visited = [];
+
+    stack.push(current);
+
+    while(stack.length > 0) {
+
+    }
     
+
+    return found;
   }
 
   breadthFirstForEach(cb) {
@@ -67,3 +79,14 @@ class BinarySearchTree {
 }
 
 module.exports = BinarySearchTree;
+
+bst = new BinarySearchTree(5);
+
+const array = [];
+const cb = x => array.push(x);
+
+bst.insert(2);
+bst.insert(3);
+bst.insert(7);
+bst.insert(9);
+console.log("Full call: ", bst.depthFirstForEach(cb));
