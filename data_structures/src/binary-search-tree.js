@@ -6,20 +6,50 @@ class BinarySearchTree {
   }
 
   depthFirstForEach(cb) {
-    /* Your code here */
-    const found = [];
-    let current = this;
+    const result = [];
     const stack = [];
-    const visited = [];
-
-    stack.push(current);
-
-    while(stack.length > 0) {
-
+    // Go to root node
+    let current = Object.assign({}, this);
+    let previous = {
+      value: 0,
+      left: null,
+      right: null,
     }
-    
+    let finished = false;
+    let checkedLeft = false;
+    let checkedRight = false;
 
-    return found;
+    // while there is a stack, do all this
+    do{
+      // check if left exists
+      if(current.left) {
+        //if yes left, .push this node to STACK and make left node current node, recurse for left check
+        previous = Object.assign({}, current);
+        previous.left = null;
+        stack.push(previous);
+        current = Object.assign({}, current.left);
+      } else if(current.right) { //if no left, check if right exists
+        //if yes right, .push this node to STACK and make right node current node
+        previous = Object.assign({}, current);
+        previous.right = null;
+        stack.push(previous);
+        current = Object.assign({}, current.right);
+      } else {
+        //if no right, .push current node to RESULT and check for node in stack
+        if(result.indexOf(current.value) !== -1) {
+          finished = true;
+          break;
+        }
+        result.push(current.value)
+        if(stack.length > 0) {
+          //if yes node in stack, .pop stack node to current node
+          current = stack.pop();
+        }
+      }
+    } while (finished === false);
+    
+    //if no node in stack, return RESULT.
+    return result;
   }
 
   breadthFirstForEach(cb) {
