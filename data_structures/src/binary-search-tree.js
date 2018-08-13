@@ -6,55 +6,43 @@ class BinarySearchTree {
   }
 
   depthFirstForEach(cb) {
+    /* Your code here */
     const result = [];
     const stack = [];
-    // Go to root node
-    let current = Object.assign({}, this);
-    let previous = {
-      value: 0,
-      left: null,
-      right: null,
-    }
-    let finished = false;
-    let checkedLeft = false;
-    let checkedRight = false;
+    stack.push(this);
 
-    // while there is a stack, do all this
-    do{
-      // check if left exists
-      if(current.left) {
-        //if yes left, .push this node to STACK and make left node current node, recurse for left check
-        previous = Object.assign({}, current);
-        previous.left = null;
-        stack.push(previous);
-        current = Object.assign({}, current.left);
-      } else if(current.right) { //if no left, check if right exists
-        //if yes right, .push this node to STACK and make right node current node
-        previous = Object.assign({}, current);
-        previous.right = null;
-        stack.push(previous);
-        current = Object.assign({}, current.right);
-      } else {
-        //if no right, .push current node to RESULT and check for node in stack
-        if(result.indexOf(current.value) !== -1) {
-          finished = true;
-          break;
-        }
-        result.push(current.value)
-        if(stack.length > 0) {
-          //if yes node in stack, .pop stack node to current node
-          current = stack.pop();
-        }
+    while(stack.length) {
+      const current = stack.pop();
+      result.push(current.value)
+      if(current.right) {
+        stack.push(current.right);
       }
-    } while (finished === false);
-    
-    //if no node in stack, return RESULT.
+      if(current.left) {
+        stack.push(current.left);
+      }
+      cb(current.value);
+    }
     return result;
   }
 
   breadthFirstForEach(cb) {
     /* Your code here */
+    const q = [];
+    const result = [];
+    q.push(this);
 
+    while (q.length) {
+      const current = q.shift();
+      result.push(current.value);
+      if(current.left) {
+        q.push(current.left);
+      }
+      if(current.right) {
+        q.push(current.right);
+      }
+      cb(current.value);
+    }
+    return result;
   }
 
   insert(value) {
@@ -110,13 +98,14 @@ class BinarySearchTree {
 
 module.exports = BinarySearchTree;
 
-bst = new BinarySearchTree(5);
+// bst = new BinarySearchTree(5);
 
-const array = [];
-const cb = x => array.push(x);
+// const array = [];
+// const cb = x => array.push(x);
 
-bst.insert(2);
-bst.insert(3);
-bst.insert(7);
-bst.insert(9);
-console.log("Full call: ", bst.depthFirstForEach(cb));
+// bst.insert(2);
+// bst.insert(3);
+// bst.insert(7);
+// bst.insert(9);
+// console.log("DFS: ", bst.depthFirstForEach(cb));
+// console.log("BFS: ", bst.breadthFirstForEach(cb));
